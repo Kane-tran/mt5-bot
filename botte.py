@@ -1,12 +1,10 @@
 import requests
 
-TOKEN = "8654287727:AAEWxgi9VCLe6esdpg2Xej1WHZF3h74Gy"
+TOKEN = "8654287727:AAEWxgi9VCLe6esdpg2Xej1WHZF3h74GyAk"
+chatid ="7542202988"
 
-base_url = f"https://api.telegram.org/bot{TOKEN}/getUpdates"
+for i in range(5):
+    message = "helllo world" + str(i)
 
-parameters = {
-    "offset" : "8654287727"
-}
-
-resp = requests.get(base_url, data = parameters)
-print(resp.text)
+    base_url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chatid}&text={message}"
+    resp = requests.get(base_url)
