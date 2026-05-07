@@ -6,5 +6,5 @@ CHAT_ID ="7542202988"
 for i in range(5):
     message = "helllo world" + str(i)
 
-    base_url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chatid}&text={message}"
+    base_url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={CHAT_ID}&text={message}"
     resp = requests.get(base_url)
