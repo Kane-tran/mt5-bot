@@ -1,7 +1,7 @@
 import requests
 
 TOKEN = "8654287727:AAEWxgi9VCLe6esdpg2Xej1WHZF3h74GyAk"
-chatid ="7542202988"
+CHAT_ID ="7542202988"
 
 for i in range(5):
     message = "helllo world" + str(i)
