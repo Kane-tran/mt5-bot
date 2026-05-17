@@ -11,20 +11,33 @@ CHAT_ID = os.getenv("CHAT_ID")
 
 def send_telegram(msg: str) -> bool:
     """Gửi tin nhắn Telegram, trả về True nếu thành công."""
+    if not TOKEN or not CHAT_ID:
+        return False
     url  = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
-    resp = requests.post(url, json={"chat_id": CHAT_ID, "text": msg}, timeout=10)
-    return resp.status_code == 200
+    try:
+        resp = requests.post(url, json={"chat_id": CHAT_ID, "text": msg}, timeout=10)
+        return resp.status_code == 200
+    except Exception:
+        return False
 
 
-@app.get("/")
+# Sử dụng api_route để chấp nhận cả GET (khi bạn tự vào web) và HEAD (khi UptimeRobot vào quét)
+@app.api_route("/", methods=["GET", "HEAD"])
 def home():
     return {"status": "running"}
 
 
-@app.get("/health")
+@app.api_route("/health", methods=["GET", "HEAD"])
 def health():
-    """Dùng để test server + Telegram còn sống không."""
-    ok = send_telegram("✅ Server đang chạy bình thường!")
+    """Dùng để UptimeRobot check định kỳ mà không bị spam Telegram"""
+    return {"status": "ok"}
+
+
+# Tách riêng một endpoint nếu bạn muốn chủ động kiểm tra xem Bot Telegram có hoạt động không
+@app.get("/test-telegram")
+def test_telegram():
+    """Vào đường dẫn này thủ công để test riêng tính năng gửi Telegram"""
+    ok = send_telegram("✅ Kênh thông báo hoạt động tốt!")
     return {"status": "ok" if ok else "telegram_error"}
 
 
